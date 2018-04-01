@@ -47,7 +47,7 @@ var game = {
         //Variables
         correctScore:0,
         incorrectScore:0,
-        results: ["Victory Royale!", "You lost to a common pump, Try again."],
+        results: ["You Eliminated that Question!", "You were Eliminated, Try again."],
 
         // Functions
         start: function() {
@@ -117,15 +117,19 @@ var game = {
 
               $('#question').html(game.results[0]);
 
+              game.correctScore++;
+
               $('#ans-one').remove();
               $('#ans-two').remove();
               $('#ans-three').remove();
               $('#ans-four').remove();
 
-              var correctImg = '<img src="https://thumbs.gfycat.com/QuickMediumAsiaticmouflon-size_restricted.gif" width="480px" height="270px"/>';
-              $('#graphic').html(correctImg);
+              $('#answer').html("<p>Number of Questions Right: " + game.correctScore + "</p>" +
+                                  "<p>Number of Questions Wrong: " + game.incorrectScore + "</p>");
 
-              game.correctScore++;
+              var correctImg = '<img src="https://media.giphy.com/media/iMBEVqJRJkEQC5EGa2/giphy.gif" width="480px" height="270px"/>';
+              $('#graphic').html(correctImg)
+
 
               game.pause();
 
@@ -135,17 +139,22 @@ var game = {
 
               $('#question').html(game.results[1]);
 
+              game.incorrectScore++;
+
               $('#ans-one').remove();
               $('#ans-two').remove();
               $('#ans-three').remove();
               $('#ans-four').remove();
 
-              $('#answer').html("The correct answer was "+ correct);
+              // $('#answer').html("The correct answer was "+ correct);
 
-              var correctImg = '<img src="https://thumbs.gfycat.com/SeparateNaughtyDevilfish-size_restricted.gif" width="480px" height="270px"/>';
+              $('#answer').html("<p>The correct answer was: "+ correct + "</p>" +
+                                  "<p>Number of Questions Right: " + game.correctScore + "</p>" +
+                                    "<p>Number of Questions Wrong: " + game.incorrectScore + "</p>");
+
+              var correctImg = '<img src="https://thumbs.gfycat.com/MelodicFinishedEmperorpenguin-size_restricted.gif" width="480px" height="270px"/>';
               $('#graphic').html(correctImg);
 
-              game.incorrectScore++;
 
               game.pause();
           }
@@ -174,18 +183,38 @@ var game = {
 
       finished: function() {
 
-            $('#question').html("Game Complete!");
-            $('#answer').html("<p>Number of Questions Right: " + game.correctScore + "</p>" +
-                                "<p>Number of Questions Wrong: " + game.incorrectScore + "</p>");
+        if (game.correctScore > 5){
 
-            $('#graphic').html('<button id="reset">RESET</button>');
+          $('#question').html("Victory Royale!");
+          $('#answer').html("<p>Number of Questions Right: " + game.correctScore + "</p>" +
+                              "<p>Number of Questions Wrong: " + game.incorrectScore + "</p>");
 
-            $('#reset').unbind().click(function() {
+          $('#graphic').html('<img src="https://thumbs.gfycat.com/QuickMediumAsiaticmouflon-size_restricted.gif"      width="480px" height="270px"/>' +
+                                  '<button id="reset">Play Again!</button>');
 
-                $('#reset').remove();
-                game.reset();
+          $('#reset').unbind().click(function() {
+
+                      $('#reset').remove();
+                        game.reset();
             })
+        }
+
+        else {
+
+          $('#question').html("So close!");
+          $('#answer').html("<p>Number of Questions Right: " + game.correctScore + "</p>" +
+                              "<p>Number of Questions Wrong: " + game.incorrectScore + "</p>");
+
+          $('#graphic').html('<img src="https://thumbs.gfycat.com/FinishedAchingKissingbug-size_restricted.gif"      width="480px" height="270px"/>' + '<button id="reset">Try again?</button>');
+
+          $('#reset').unbind().click(function() {
+
+              $('#reset').remove();
+              game.reset();
+          })
+        }
       },
+
 
       reset: function() {
 
